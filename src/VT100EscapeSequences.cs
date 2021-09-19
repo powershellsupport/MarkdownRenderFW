@@ -2,9 +2,14 @@
 // Licensed under the MIT License.
 
 using System;
+using System.IO;
 using System.Runtime.InteropServices;
 
-namespace Microsoft.PowerShell.MarkdownRender
+using Markdig;
+using Markdig.Renderers;
+using Markdig.Syntax;
+
+namespace MarkdownRender
 {
     /// <summary>
     /// Enum to name all the properties of PSMarkdownOptionInfo.
@@ -269,12 +274,12 @@ namespace Microsoft.PowerShell.MarkdownRender
     {
         private const char Esc = (char)0x1B;
 
-        private readonly string endSequence = Esc + "[0m";
+        private string endSequence = Esc + "[0m";
 
         // For code blocks, [500@ make sure that the whole line has background color.
         private const string LongBackgroundCodeBlock = "[500@";
 
-        private readonly PSMarkdownOptionInfo options;
+        private PSMarkdownOptionInfo options;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VT100EscapeSequences"/> class.
@@ -282,7 +287,12 @@ namespace Microsoft.PowerShell.MarkdownRender
         /// <param name="optionInfo">PSMarkdownOptionInfo object to initialize with.</param>
         public VT100EscapeSequences(PSMarkdownOptionInfo optionInfo)
         {
-            options = optionInfo ?? throw new ArgumentNullException(nameof(optionInfo));
+            if (optionInfo == null)
+            {
+                throw new ArgumentNullException(nameof(optionInfo));
+            }
+
+            options = optionInfo;
         }
 
         /// <summary>

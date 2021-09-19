@@ -5,8 +5,10 @@ using System;
 using System.IO;
 
 using Markdig;
+using Markdig.Renderers;
+using Markdig.Syntax;
 
-namespace Microsoft.PowerShell.MarkdownRender
+namespace MarkdownRender
 {
     /// <summary>
     /// Type of conversion from Markdown.

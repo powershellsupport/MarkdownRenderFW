@@ -1,9 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System;
+using System.IO;
+
+using Markdig;
+using Markdig.Renderers;
 using Markdig.Syntax.Inlines;
 
-namespace Microsoft.PowerShell.MarkdownRender
+namespace MarkdownRender
 {
     /// <summary>
     /// Renderer for adding VT100 escape sequences for line breaks.

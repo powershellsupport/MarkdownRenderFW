@@ -1,9 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System;
+using System.IO;
+
+using Markdig;
+using Markdig.Renderers;
 using Markdig.Syntax.Inlines;
 
-namespace Microsoft.PowerShell.MarkdownRender
+namespace MarkdownRender
 {
     /// <summary>
     /// Renderer for adding VT100 escape sequences for bold and italics elements.
@@ -12,7 +17,7 @@ namespace Microsoft.PowerShell.MarkdownRender
     {
         protected override void Write(VT100Renderer renderer, EmphasisInline obj)
         {
-            renderer.Write(renderer.EscapeSequences.FormatEmphasis(obj.FirstChild.ToString(), isBold: obj.DelimiterCount == 2));
+            renderer.Write(renderer.EscapeSequences.FormatEmphasis(obj.FirstChild.ToString(), isBold: obj.DelimiterCount == 2 ? true : false));
         }
     }
 }

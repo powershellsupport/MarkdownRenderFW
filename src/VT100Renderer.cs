@@ -1,10 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System;
 using System.IO;
-using Markdig.Renderers;
 
-namespace Microsoft.PowerShell.MarkdownRender
+using Markdig;
+using Markdig.Renderers;
+using Markdig.Syntax;
+
+namespace MarkdownRender
 {
     /// <summary>
     /// Initializes an instance of the VT100 renderer.
@@ -37,6 +41,6 @@ namespace Microsoft.PowerShell.MarkdownRender
         /// <summary>
         /// Gets the current escape sequences.
         /// </summary>
-        public VT100EscapeSequences EscapeSequences { get; }
+        public VT100EscapeSequences EscapeSequences { get; private set; }
     }
 }
