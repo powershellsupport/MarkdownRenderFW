@@ -31,3 +31,5 @@ function ConvertFrom-Markdown {
         
     }
 }
+
+Export-ModuleMember -Function 'ConvertFrom-Markdown'
