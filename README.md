@@ -1,6 +1,3 @@
-# Microsoft.PowerShell.MarkdownRender
+# MarkdownRender
 
-This repository s for the NuGet package `Microsoft.PowerShell.MarkdownRender`.
-The component is used by `Show-Markdown` and `ConvertFrom-Markdown` PowerShell cmdlets.
-
-This component is planned to be used by PlatyPS as well.
+MarkdownRender is a hybrid solution, it is both a class library which can be used from .NET Framework projects, and a Windows PowerShell binary module - hidden inside a script module, meant to provide the `ConvertFrom-Markdown` function inside Windows PowerShell.
