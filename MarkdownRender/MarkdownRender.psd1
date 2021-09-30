@@ -12,7 +12,7 @@
 RootModule = 'MarkdownRender.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.0.1'
+ModuleVersion = '1.0.0'
 
 # Supported PSEditions
 CompatiblePSEditions = @('Desktop')
@@ -24,16 +24,16 @@ GUID = 'c9cab0b2-640a-4663-b5a1-bd23916572a2'
 Author = 'David Sass'
 
 # Company or vendor of this module
-CompanyName = 'Unknown'
+CompanyName = 'PowerShell Support'
 
 # Copyright statement for this module
 Copyright = '(c) David Sass. All rights reserved.'
 
 # Description of the functionality provided by this module
-# Description = ''
+Description = 'Markdown converter for Windows PowerShell'
 
 # Minimum version of the PowerShell engine required by this module
-# PowerShellVersion = ''
+PowerShellVersion = '5.1'
 
 # Name of the PowerShell host required by this module
 # PowerShellHostName = ''
@@ -87,7 +87,7 @@ FunctionsToExport = @('ConvertFrom-Markdown')
 # ModuleList = @()
 
 # List of all files packaged with this module
-# FileList = @()
+FileList = @('Markdig.Signed.dll','MarkdownRender.dll','MarkdownRender.psd1','MarkdownRender.psm1','System.Buffers.dll','System.Memory.dll','System.Numerics.Vectors.dll','System.Runtime.CompilerServices.Unsafe.dll')
 
 # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
 PrivateData = @{
@@ -95,13 +95,13 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        # Tags = @()
+        Tags = @('Markdown','MarkdownRender','Windows PowerShell')
 
         # A URL to the license for this module.
-        # LicenseUri = ''
+        LicenseUri = 'https://github.com/powershellsupport/MarkdownRenderFW/blob/main/LICENSE'
 
         # A URL to the main website for this project.
-        # ProjectUri = ''
+        ProjectUri = 'https://github.com/powershellsupport/MarkdownRenderFW'
 
         # A URL to an icon representing this module.
         # IconUri = ''
