@@ -12,7 +12,7 @@
 RootModule = 'MarkdownRender.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.0.0'
+ModuleVersion = '1.0.1'
 
 # Supported PSEditions
 CompatiblePSEditions = @('Desktop')
@@ -107,7 +107,7 @@ PrivateData = @{
         # IconUri = ''
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'Preview version works on my machine ¯\_(ツ)_/¯'
+        ReleaseNotes = 'Preview version works on my machine'
 
         # Prerelease string of this module
         Prerelease = 'Preview'
