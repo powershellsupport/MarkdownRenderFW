@@ -15,8 +15,7 @@ function ConvertFrom-Markdown {
     process {
         foreach ($onePath in $Path) {
             $content = Get-Content -Path $onePath -Raw
-            [MarkdownRender.MarkdownConverter]::Convert($content,[MarkdownRender.MarkdownConversionType]::HTML,[MarkdownRender.PSMarkdownOptionInfo]::new()) #| Select-Object -ExpandProperty Html
-            #[MarkdownRender.MarkdownConverter]::Convert($(Get-Content C:\source\github\MarkdownRenderFW\README.md),[MarkdownRender.MarkdownConversionType]::HTML,[MarkdownRender.PSMarkdownOptionInfo]::new())
+            [MarkdownRender.MarkdownConverter]::Convert($content,[MarkdownRender.MarkdownConversionType]::HTML,[MarkdownRender.PSMarkdownOptionInfo]::new())
         }
     }
 
