@@ -95,7 +95,7 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        Tags = @('Markdown','MarkdownRender','Windows PowerShell')
+        Tags = @('Markdown','MarkdownRender','WindowsPowerShell')
 
         # A URL to the license for this module.
         LicenseUri = 'https://github.com/powershellsupport/MarkdownRenderFW/blob/main/LICENSE'
