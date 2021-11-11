@@ -19,6 +19,8 @@ function ConvertFrom-Markdown {
     .EXAMPLE
         ConvertFrom-Markdown -Path "C:\Temp\test.md"
     .EXAMPLE
+        # to access the HTML content use the .html property
+        $html = (ConvertFrom-Markdown -Path "C:\Temp\test.md").html
     .NOTES
         This cmdlet was backported to Windows PowerShell 5.1 from PowerShell 7.
     .LINK
