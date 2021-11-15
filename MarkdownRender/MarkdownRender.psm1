@@ -21,33 +21,68 @@ function ConvertFrom-Markdown {
     .EXAMPLE
         # to access the HTML content use the .html property
         $html = (ConvertFrom-Markdown -Path "C:\Temp\test.md").html
+    .EXAMPLE
+        # to access the HTML content use the .html property
+        $html = ConvertFrom-Markdown -Path "C:\Temp\test.md" | Select-Object -ExpandPropery html
     .NOTES
         This cmdlet was backported to Windows PowerShell 5.1 from PowerShell 7.
     .LINK
     #>
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = "InputObject")]
     [OutputType([MarkdownRender.MarkdownInfo])]
     param (
         # Specifies a path to one or more locations.
-        [Parameter(Mandatory=$true, Position=0, ParameterSetName="Path", ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$true, HelpMessage="Path to one or more locations.")]
+        [Parameter(Mandatory = $true, Position = 0, ParameterSetName = "Path", ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, HelpMessage = "Path to one or more locations.")]
         [Alias("PSPath")]
         [ValidateNotNullOrEmpty()]
         [string[]]
         $Path
+        ,
+        # Specifies the object to be converted.
+        [Parameter(Mandatory = $true,
+            Position = 0,
+            ParameterSetName = "InputObject",
+            ValueFromPipeline = $true,
+            ValueFromPipelineByPropertyName = $true,
+            HelpMessage = "Specifies the object to be converted")]
+        [ValidateNotNullOrEmpty()]
+        [PSObject]
+        $InputObject
+        ,
+        # Specifies if the output should be encoded as a string with VT100 escape codes.
+        [Parameter(Mandatory = $false, Position = 1, ParameterSetName = "InputObject", HelpMessage = "Specifies if the output should be encoded as a string with VT100 escape codes.")]
+        [Parameter(Mandatory = $false, Position = 1, ParameterSetName = "Path", HelpMessage = "Specifies if the output should be encoded as a string with VT100 escape codes.")]
+        [switch]
+        $AsVT100EncodedString
     )
 
     begin {
     }
 
     process {
-        foreach ($onePath in $Path) {
-            $content = Get-Content -Path $onePath -Raw
-            [MarkdownRender.MarkdownConverter]::Convert($content,[MarkdownRender.MarkdownConversionType]::HTML,[MarkdownRender.PSMarkdownOptionInfo]::new())
+        switch ($pscmdlet.ParameterSetName) {
+            "Path" {
+                foreach ($onePath in $Path) {
+                    $content = Get-Content -Path $onePath -Raw
+                    [MarkdownRender.MarkdownConverter]::Convert($content, [MarkdownRender.MarkdownConversionType]::HTML, [MarkdownRender.PSMarkdownOptionInfo]::new())
+                }
+            }
+            "InputObject" {
+                if ($InputObject -is [System.String]) {
+                    $content = $InputObject
+                    [MarkdownRender.MarkdownConverter]::Convert($content, [MarkdownRender.MarkdownConversionType]::HTML, [MarkdownRender.PSMarkdownOptionInfo]::new())
+                } elseif ($InputObject -is [System.IO.FileInfo]) {
+                    $content = Get-Content -Path $InputObject -Raw
+                    [MarkdownRender.MarkdownConverter]::Convert($content, [MarkdownRender.MarkdownConversionType]::HTML, [MarkdownRender.PSMarkdownOptionInfo]::new())
+                } else {
+                    throw "InputObject must be a string or a file path"
+                }
+            }
+            Default { throw "Invalid parameter set name: $($pscmdlet.ParameterSetName)" }
         }
     }
 
-    end {
-    }
+    end {}
 }
 
 Add-Type -Path "$PSScriptRoot\System.Runtime.CompilerServices.Unsafe.dll" -ErrorAction SilentlyContinue
