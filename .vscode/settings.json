@@ -1,0 +1,8 @@
+{
+    "triggerTaskOnSave.selectedTask": "Run.CurrentFile",
+    "triggerTaskOnSave.tasks": {
+        "test": [
+            "**/*.psm1"
+        ],
+    }
+}
