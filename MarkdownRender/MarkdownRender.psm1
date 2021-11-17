@@ -57,33 +57,50 @@ function ConvertFrom-Markdown {
     )
 
     begin {
-    }
-
-    process {
-        switch ($pscmdlet.ParameterSetName) {
-            "Path" {
-                foreach ($onePath in $Path) {
-                    $content = Get-Content -Path $onePath -Raw
-                    [MarkdownRender.MarkdownConverter]::Convert($content, [MarkdownRender.MarkdownConversionType]::HTML, [MarkdownRender.PSMarkdownOptionInfo]::new())
-                }
-            }
-            "InputObject" {
-                if ($InputObject -is [System.String]) {
-                    $content = $InputObject
-                    [MarkdownRender.MarkdownConverter]::Convert($content, [MarkdownRender.MarkdownConversionType]::HTML, [MarkdownRender.PSMarkdownOptionInfo]::new())
-                } elseif ($InputObject -is [System.IO.FileInfo]) {
-                    $content = Get-Content -Path $InputObject -Raw
-                    [MarkdownRender.MarkdownConverter]::Convert($content, [MarkdownRender.MarkdownConversionType]::HTML, [MarkdownRender.PSMarkdownOptionInfo]::new())
-                } else {
-                    throw "InputObject must be a string or a file path"
-                }
-            }
-            Default { throw "Invalid parameter set name: $($pscmdlet.ParameterSetName)" }
+        # $contentArray will hold the content of the file or the input object to be converted.
+        # This way we only implement the conversion once in the code.
+        $contentArray = New-Object System.Collections.ArrayList
+        $MarkdownConversionType = [MarkdownRender.MarkdownConversionType]::HTML
+        if ( $AsVT100EncodedString ) {
+            $MarkdownConversionType = [MarkdownRender.MarkdownConversionType]::VT100
         }
     }
 
-    end {}
+    process {
+        try {
+            # Step 1: Get the content to be converted.
+            switch ($pscmdlet.ParameterSetName) {
+                "Path" {
+                    foreach ($onePath in $Path) {
+                        $null = $contentArray.add($(Get-Content -Path $onePath -Raw))
+                    }
+                }
+                "InputObject" {
+                    if ($InputObject -is [System.String]) {
+                        $null = $contentArray.add($InputObject)
+                    } elseif ($InputObject -is [System.IO.FileInfo]) {
+                        $null = $contentArray.add($(Get-Content -Path $InputObject -Raw))
+                    } else {
+                        throw "InputObject must be a string or a file path"
+                    }
+                }
+                Default { throw "Invalid parameter set name: $($pscmdlet.ParameterSetName)" }
+            }
+
+            # Step 2: Convert the content to MarkdownInfo.
+            # We don't use return because PowerShell will return every object anyways.
+            ForEach ($oneContent in $contentArray) {
+                [MarkdownRender.MarkdownConverter]::Convert($oneContent, $MarkdownConversionType, [MarkdownRender.PSMarkdownOptionInfo]::new())
+            }
+        } catch { $pscmdlet.WriteError($pscmdlet.GetExceptionErrorRecord($_)) }
+    }
+
+    end {
+    }
 }
 
+# We need to do an explicit import of the DLL for some reason.
 Add-Type -Path "$PSScriptRoot\System.Runtime.CompilerServices.Unsafe.dll" -ErrorAction SilentlyContinue
+
+# Export our single function.
 Export-ModuleMember -Function 'ConvertFrom-Markdown'
