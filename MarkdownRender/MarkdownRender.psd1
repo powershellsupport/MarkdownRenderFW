@@ -107,10 +107,10 @@ PrivateData = @{
         # IconUri = ''
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'Preview version works on my machine'
+        ReleaseNotes = 'Optimalization, inputobject and AsVT100 support'
 
         # Prerelease string of this module
-        Prerelease = 'Preview'
+        # Prerelease = 'Preview'
 
         # Flag to indicate whether the module requires explicit user acceptance for install/update/save
         # RequireLicenseAcceptance = $false

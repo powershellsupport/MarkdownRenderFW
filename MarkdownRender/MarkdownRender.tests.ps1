@@ -57,7 +57,7 @@ Describe -Name "MarkdownRender" -Fixture {
     }
     Context "Convert as VT100" {
         It "Convert from bold text" {
-            "**Bold text**" | ConvertFrom-Markdown -AsVT100EncodedString | Select-Object -exp Html | Should -BeLike '<b>Bold text</b>'
+            "**Bold text**" | ConvertFrom-Markdown -AsVT100EncodedString | Select-Object -exp VT100EncodedString | Should -BeLike '*Bold text*'
         }
     }
 }
